@@ -1,0 +1,67 @@
+RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+Options FollowSymLinks
+#(+) y (nada)  muestra o denega el list de url directorios
+RewriteEngine on
+Options All -Indexes
+#Impedir que se pueda ver el listado de contenidos de un directorio
+#FollowSymLinks means if a dir is a symbol link, follow the link
+#Indexes means a dir can be show as list if no index page.
+RewriteCond %{SCRIPT_FILENAME} -d [OR]
+RewriteCond %{SCRIPT_FILENAME} -f
+#RewriteRule "(^|/)\." - [F]
+RewriteRule "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$" - [F]
+#limita el acceso para archivos en su totalidad en local y general puerto 80
+
+#ReWriteCond %{REQUEST_URI} template/ [OR]
+#ReWriteCond %{REQUEST_URI} data/ [OR]
+#ReWriteCond %{REQUEST_URI} .well-known/ 
+#RewriteCond %{HTTP_REFERER} !^http://localhost/docufresh/.*$ [NC]
+ #RewriteCond %{HTTP_REFERER} !^http://(www\.)?example.org/.*$ [NC]
+#RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$ - [F]
+ #RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$  http://example.org/IMG/no_robar_ancho_de_banda.gif [NC,R,L]
+
+DirectoryIndex  index.php
+
+
+#http://www.jpereira.net/web/un-poco-de-seguridad-con-htaccess
+#http://www.webempresa.com/blog/10-sencillos-consejos-reforzar-seguridad-wordpress-usando-htaccess.html
+ErrorDocument 404   /Error.php?error=404
+ErrorDocument 403   /Error.php?error=403
+ErrorDocument 400   /Error.php?error=400
+ErrorDocument 406   /Error.php?error=406
+ErrorDocument 412   /Error.php?error=412
+ErrorDocument 416   /Error.php?error=416
+ErrorDocument 501   /Error.php?error=501
+ErrorDocument 401   /Error.php?error=401
+ErrorDocument 500   /Error.php?error=500
+RewriteRule ^error$  /Error.php?error=400 [L]
+
+#reglas
+RewriteRule ^logout$    LogOut.php [L]
+RewriteRule ^logoutuser$    LogOutUser.php [L]
+RewriteRule ^login/(.*)$    LoginUser.php/$1 [L]
+RewriteRule ^login$    LoginUser.php [L]
+RewriteRule ^profileuser/(.*)$    ProfileUser.php/$1 [L]
+RewriteRule ^profileuser$    ProfileUser.php [L]
+RewriteRule ^forgot/(.*)$    ViewForgotPassword.php/$1 [L]
+RewriteRule ^forgot$    ViewForgotPassword.php [L]
+RewriteRule ^register/(.*)$    ViewRegisterUser.php/$1 [L]
+RewriteRule ^register$    ViewRegisterUser.php [L]
+RewriteRule ^success$    success.php [L]
+RewriteRule ^cancel$    cancel.php [L]
+RewriteRule ^ipn$    ipn.php [L]
+RewriteRule ^kcoinversion/(.*)$    KcoinVersion.php/$1 [L]
+RewriteRule ^kcoinversion$    KcoinVersion.php [L]
+RewriteRule ^confirmations/(.*)$    ViewListConfirmation.php/$1 [L]
+RewriteRule ^confirmations$    ViewListConfirmation.php [L]
+RewriteRule ^profileadmin/(.*)$    ProfileAdmin.php/$1 [L]
+RewriteRule ^profileadmin$    ProfileAdmin.php [L]
+RewriteRule ^users/(.*)$    ViewListUsers.php/$1 [L]
+RewriteRule ^users$    ViewListUsers.php [L]
+RewriteRule ^dashboarduser/(.*)$    DashboardUser.php/$1 [L]
+RewriteRule ^dashboarduser$    DashboardUser.php [L]
+RewriteRule ^dashboardadmin/(.*)$    DashboardAdmin.php/$1 [L]
+RewriteRule ^dashboardadmin$    DashboardAdmin.php [L]
